@@ -13,6 +13,7 @@ import { CountriesModule } from '../countries/countries.module';
   ],
   controllers: [TravelPlansController],
   providers: [TravelPlansService],
+  exports: [TravelPlansService],
 })
 export class TravelPlansModule {}
 

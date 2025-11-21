@@ -29,4 +29,8 @@ export class TravelPlansService {
   findOne(id: number) {
     return this.repository.findOne({ where: { id } });
   }
+
+  async countByCountryCode(code: string): Promise<number> {
+    return this.repository.count({ where: { countryCode: code } });
+  }
 }

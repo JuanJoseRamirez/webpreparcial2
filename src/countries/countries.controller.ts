@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Delete, UseGuards } from '@nestjs/common';
 import { CountriesService } from './countries.service';
+import { ApiKeyGuard } from '../common/guards/api-key.guard';
 
 @Controller('countries')
 export class CountriesController {
@@ -13,5 +14,12 @@ export class CountriesController {
   @Get(':code')
   async getOne(@Param('code') code: string) {
     return this.service.findByCode(code);
+  }
+
+  @UseGuards(ApiKeyGuard)
+  @Delete(':code')
+  async remove(@Param('code') code: string) {
+    await this.service.deleteByCode(code);
+    return { message: `Country ${code.toUpperCase()} deleted` };
   }
 }

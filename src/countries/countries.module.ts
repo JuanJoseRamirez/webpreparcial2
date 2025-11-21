@@ -5,11 +5,13 @@ import { HttpModule } from '@nestjs/axios';
 import { CountriesService } from './countries.service';
 import { CountriesController } from './countries.controller';
 import { Country } from './country.entity';
+import { TravelPlan } from '../travel-plans/travel-plan.entity';
 
 import { RestCountriesProvider } from './providers/rest-countries.provider';
 
+
 @Module({
-  imports: [TypeOrmModule.forFeature([Country]), HttpModule],
+  imports: [TypeOrmModule.forFeature([Country, TravelPlan]), HttpModule],
   controllers: [CountriesController],
   providers: [
     CountriesService,
