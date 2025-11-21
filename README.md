@@ -1,33 +1,34 @@
-
 ---
 
-````
-# Travel API (NestJS)
+# README — Travel API (NestJS)
 
 ## Descripción general
+
 Este proyecto implementa una API REST en NestJS que permite:
 
-- Gestionar países (Countries) con almacenamiento local tipo caché.
-- Consultar países desde la API externa RestCountries cuando no existan en la base de datos.
-- Crear y consultar planes de viaje (TravelPlans) asociados a países.
-- Utilizar DTOs y validación para asegurar la integridad de los datos.
+* Gestionar países (Countries), con almacenamiento local tipo caché.
+* Consultar países desde la API externa RestCountries cuando no existan en la base de datos.
+* Crear y consultar planes de viaje (TravelPlans) asociados a países.
+* Usar DTOs y validación para asegurar la integridad de los datos.
 
 ---
 
 ## Cómo ejecutar el proyecto
 
 ### 1. Instalación de dependencias
+
 Ejecutar:
 
 ```bash
 npm install
-````
+```
 
 ### 2. Configuración de la base de datos
 
-El proyecto utiliza SQLite. La base de datos se crea automáticamente como `database.sqlite`.
+El proyecto utiliza SQLite.
+La base de datos se crea automáticamente como `database.sqlite`.
 
-La configuración se encuentra en `src/app.module.ts`:
+La configuración se encuentra en `app.module.ts`:
 
 ```ts
 TypeOrmModule.forRoot({
@@ -46,7 +47,7 @@ No requiere pasos adicionales.
 npm run start:dev
 ```
 
-La API estará disponible en:
+La API quedará disponible en:
 
 ```
 http://localhost:3000
@@ -58,14 +59,14 @@ http://localhost:3000
 
 ### CountriesModule
 
-* Consulta países en la base de datos local.
-* Si un país no existe, lo obtiene desde la API RestCountries y lo almacena.
-* Actúa como sistema de caché.
+* Consulta países en la base de datos.
+* Si un país no existe, lo obtiene de la API RestCountries y lo guarda.
+* Funciona como sistema de caché local.
 
 ### TravelPlansModule
 
-* Permite crear planes de viaje.
-* Verifica que el país exista; si no existe, lo obtiene automáticamente mediante CountriesModule.
+* Crea planes de viaje asociados a un país existente.
+* Si el país no está en la base local, lo obtiene automáticamente desde CountriesModule.
 * Permite listar y consultar planes por ID.
 
 ---
@@ -98,19 +99,13 @@ http://localhost:3000
 
 ## Provider externo (RestCountries)
 
-El proyecto incluye un provider encargado de consultar:
-
-```
-https://restcountries.com/v3.1/alpha/{code}
-```
-
-Este provider:
+La API externa se consulta mediante un provider especializado que:
 
 * Recibe un código alpha-3.
-* Obtiene los datos del país desde RestCountries.
+* Consume `https://restcountries.com/v3.1/alpha/{code}`.
 * Extrae únicamente los campos necesarios.
-* Devuelve los datos listos para guardar en la base.
-* Permite que CountriesService no dependa directamente de la API externa.
+* Devuelve los datos formateados para insertar en la base.
+* Evita que CountriesService dependa directamente de HTTP o URLs externas.
 
 ---
 
@@ -118,7 +113,7 @@ Este provider:
 
 ### Countries
 
-**Listar todos los países**
+**Listar países**
 
 ```
 GET /countries
@@ -146,7 +141,7 @@ GET /countries/COL
 POST /travel-plans
 ```
 
-Body ejemplo:
+Ejemplo de body:
 
 ```json
 {
@@ -174,7 +169,7 @@ GET /travel-plans/:id
 
 ## Pruebas básicas sugeridas
 
-1. Consultar un país no cacheado:
+1. Consultar un país no existente:
 
    ```
    GET /countries/JPN
@@ -188,7 +183,7 @@ GET /travel-plans/:id
    GET /countries/JPN
    ```
 
-   Debe obtenerse desde la base local.
+   Debe obtenerse desde la base local (caché).
 
 3. Crear un plan de viaje:
 
@@ -196,7 +191,7 @@ GET /travel-plans/:id
    POST /travel-plans
    ```
 
-   Si el país no existe, debe consultarse y guardarse automáticamente.
+   Si el país no existe, debe crearse automáticamente.
 
 4. Listar planes:
 
@@ -211,9 +206,3 @@ GET /travel-plans/:id
    ```
 
 ---
-
-```
-
----
-
-```
