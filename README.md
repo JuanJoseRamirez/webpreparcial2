@@ -1,5 +1,3 @@
----
-
 # README — Travel API (NestJS)
 
 ## Descripción general
@@ -10,8 +8,6 @@ Este proyecto implementa una API REST en NestJS que permite:
 * Consultar países desde la API externa RestCountries cuando no existan en la base de datos.
 * Crear y consultar planes de viaje (TravelPlans) asociados a países.
 * Usar DTOs y validación para asegurar la integridad de los datos.
-
----
 
 ## Cómo ejecutar el proyecto
 
