@@ -203,7 +203,7 @@ GET /travel-plans/:id
 
 ## Extensión realizada en el parcial
 
-En esta ampliación se extendió la API original agregando la capacidad de eliminar países desde la caché local mediante un nuevo endpoint protegido, controlando además que ningún país pueda ser borrado si tiene planes de viaje asociados. Para lograrlo se incorporó un Guard que valida un token enviado por header antes de permitir la operación. También se integró un middleware de logging que registra la actividad de cada petición realizada a las rutas de Countries y TravelPlans, permitiendo rastrear el método utilizado, la ruta, el código de estado y el tiempo de procesamiento.
+ESe extendió la API original agregando la capacidad de eliminar países desde la caché local mediante un nuevo endpoint protegido con Guard, controlando además que ningún país pueda ser borrado si tiene planes de viaje asociados. Para lograrlo se incorporó un Guard que valida un token enviado por header antes de permitir la operación. También se integró un middleware de logging que registra la actividad de cada petición realizada a las rutas de Countries y TravelPlans, este middleware muestra en consola el método utilizado, la ruta, el código de estado y el tiempo de procesamiento.
 
 ---
 
