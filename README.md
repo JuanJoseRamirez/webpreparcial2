@@ -201,4 +201,44 @@ GET /travel-plans/:id
    GET /travel-plans/1
    ```
 
+## Extensión realizada en el parcial
+
+ESe extendió la API original agregando la capacidad de eliminar países desde la caché local mediante un nuevo endpoint protegido con Guard, controlando además que ningún país pueda ser borrado si tiene planes de viaje asociados. Para lograrlo se incorporó un Guard que valida un token enviado por header antes de permitir la operación. También se integró un middleware de logging que registra la actividad de cada petición realizada a las rutas de Countries y TravelPlans, este middleware muestra en consola el método utilizado, la ruta, el código de estado y el tiempo de procesamiento.
+
 ---
+
+## Endpoint protegido y Guard de autorización
+
+El endpoint protegido es:
+
+```
+
+DELETE /countries/:alpha3Code
+
+```
+
+Este endpoint solo puede ejecutarse si la petición incluye el header:
+
+```
+
+x-api-key: <token>
+
+```
+
+El Guard (`ApiKeyGuard`) intercepta la petición antes de llegar al controlador, lee el header `x-api-key` y lo compara con la clave definida en la variable de entorno `ADMIN_TOKEN` (o `secret-token` por defecto).  
+Si el token no coincide o está ausente, la petición es rechazada con un **401 Unauthorized**.  
+Además, dentro del servicio se valida que el país exista y que no posea planes de viaje asociados, evitando eliminaciones inconsistentes.
+
+---
+
+## Middleware de logging
+
+Se implementó un middleware personalizado aplicado al módulo de Countries y TravelPlans.  
+Este middleware registra por consola la siguiente información para cada petición:
+
+- Método HTTP utilizado (GET, POST, DELETE, etc.).
+- Ruta solicitada.
+- Código de estado de la respuesta.
+- Tiempo total de procesamiento.
+
+```
